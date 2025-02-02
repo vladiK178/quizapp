@@ -70,3 +70,17 @@ function init() {
 
     showQuestion();
 }
+
+function showQuestion() {
+    if (gameIsOver()) {
+        showEndScreen();
+    } else {
+        updateProgressBar();
+        updateToNextQuestion();
+    }
+}
+
+function gameIsOver() {
+    return currentQuestion >= questions.length;
+}
+
