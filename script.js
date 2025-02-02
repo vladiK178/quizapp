@@ -108,3 +108,53 @@ function updateToNextQuestion() {
     document.getElementById('answer_3').innerHTML = question['answer_3'];
     document.getElementById('answer_4').innerHTML = question['answer_4'];
 }
+
+function answer(selection) {
+    let question = questions[currentQuestion];
+    let selectedQuestionNumber = selection.slice(-1);
+    let idOfRightAnswer = `answer_${question['right_answer']}`;
+
+    if (rightAnswerSelected(selectedQuestionNumber)) { // Richtige Frage beantwortet
+        document.getElementById(selection).parentNode.classList.add('bg-success');
+        AUDIO_SUCCESS.play();
+        rightQuestions++;
+    } else {
+        document.getElementById(selection).parentNode.classList.add('bg-danger');
+        document.getElementById(idOfRightAnswer).parentNode.classList.add('bg-success');
+        AUDIO_FAIL.play();
+    }
+    document.getElementById('next-button').disabled = false;
+}
+
+function rightAnswerSelected(selectedQuestionNumber) {
+    return selectedQuestionNumber == question['right_answer'];
+}
+
+function nextQuestion() {
+    currentQuestion++; // z.B. von 0 auf 1
+    document.getElementById('next-button').disabled = true;
+    resetAnswerButtons();
+    showQuestion();
+}
+
+function resetAnswerButtons() {
+    document.getElementById('answer_1').parentNode.classList.remove('bg-danger');
+    document.getElementById('answer_1').parentNode.classList.remove('bg-success');
+    document.getElementById('answer_2').parentNode.classList.remove('bg-danger');
+    document.getElementById('answer_2').parentNode.classList.remove('bg-success');
+    document.getElementById('answer_3').parentNode.classList.remove('bg-danger');
+    document.getElementById('answer_3').parentNode.classList.remove('bg-success');
+    document.getElementById('answer_4').parentNode.classList.remove('bg-danger');
+    document.getElementById('answer_4').parentNode.classList.remove('bg-success');
+}
+
+
+function restartGame() {
+    document.getElementById('header-image').src = 'img/pencil.jpg';
+    document.getElementById('questionBody').style = ''; // questionBody wieder anzeigen
+    document.getElementById('endScreen').style = 'display: none'; // Endscreen ausblenden
+
+    rightQuestions = 0;
+    currentQuestion = 0;
+    init();
+}
