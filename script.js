@@ -109,26 +109,25 @@ function updateToNextQuestion() {
 }
 
 function answer(selection) {
-  let question = questions[currentQuestion];
+  let question = questions[currentQuestion]; // Frage aus dem Array holen
   let selectedQuestionNumber = selection.slice(-1);
   let idOfRightAnswer = `answer_${question["right_answer"]}`;
 
-  if (rightAnswerSelected(selectedQuestionNumber)) {
+  if (rightAnswerSelected(selectedQuestionNumber, question)) {
     // Richtige Frage beantwortet
     document.getElementById(selection).parentNode.classList.add("bg-success");
-    AUDIO_SUCCESS.play();
+
     rightQuestions++;
   } else {
     document.getElementById(selection).parentNode.classList.add("bg-danger");
     document
       .getElementById(idOfRightAnswer)
       .parentNode.classList.add("bg-success");
-    AUDIO_FAIL.play();
   }
   document.getElementById("next-button").disabled = false;
 }
 
-function rightAnswerSelected(selectedQuestionNumber) {
+function rightAnswerSelected(selectedQuestionNumber, question) {
   return selectedQuestionNumber == question["right_answer"];
 }
 
